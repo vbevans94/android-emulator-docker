@@ -1,7 +1,7 @@
 # android-emulator-docker
 Dockerfile for Ubuntu + Java8 + Android SDK + Android System Image
 
-### Currently installed Android 7.1.1 and latest on Feb 2019 but you can parametrize for your needs, e.g.:
+### Currently installed Android 7.1.1 and latest SDK on Feb 2019 but you can parametrize for your needs, e.g.:
 
 ```
 docker build --build-arg ANDROID_PLATFORM_VERSION=android-27 .
