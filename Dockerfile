@@ -54,9 +54,42 @@ RUN mkdir -p ~/.android && \
     echo y | sdkmanager "platforms;$ANDROID_PLATFORM_VERSION" && \
     echo y | sdkmanager "system-images;$ANDROID_PLATFORM_VERSION;$IMG_TYPE;$SYS_IMG" "emulator"
 
-# Install latest nodejs, npm
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash && \
-    apt-get -qqy install nodejs
+# Install VNC
+RUN apt-get -qqy update && apt-get -qqy install --no-install-recommends \
+    xterm \
+    supervisor \
+    socat \
+    x11vnc \
+    openbox \
+    menu \
+    python-numpy \
+    net-tools \
+    ffmpeg \
+    jq \
+    qemu-kvm \
+    libvirt-bin \
+    ubuntu-vm-builder \
+    bridge-utils \
+ && rm -rf /var/lib/apt/lists/*
 
-# noVNC port
-EXPOSE 6080
+ RUN  wget -nv -O noVNC.zip "https://github.com/novnc/noVNC/archive/master.zip" \
+  && unzip -x noVNC.zip \
+  && rm noVNC.zip  \
+  && mv noVNC-master noVNC \
+  && wget -nv -O websockify.zip "https://github.com/novnc/websockify/archive/master.zip" \
+  && unzip -x websockify.zip \
+  && mv websockify-master ./noVNC/utils/websockify \
+  && rm websockify.zip \
+  && ln ./noVNC/vnc_lite.html noVNC/index.html
+
+ # Expose VNC port
+ EXPOSE 6080 5900
+
+ ADD container /root
+
+ RUN chmod +x supervisord.conf && \
+     chmod +x entrypoint.sh
+
+ ENTRYPOINT /root/entrypoint.sh
+
+ CMD /usr/bin/supervisord -c /root/supervisord.conf
