@@ -9,8 +9,8 @@ RUN dpkg --add-architecture i386 \
 
 ENV ANDROID_HOME="/home/user/android-sdk-linux" \
     SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" \
-    ANDROID_BUILD_TOOLS_VERSION=28.0.3 \
-    ANDROID_PLATFORM_VERSION=android-25
+    ANDROID_BUILD_TOOLS_VERSION=28.0.2 \
+    ANDROID_PLATFORM_VERSION=android-28
 
 # Create a non-root user
 RUN useradd -m user
