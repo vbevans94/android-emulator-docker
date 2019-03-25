@@ -13,7 +13,7 @@ ENV ANDROID_HOME="/home/user/android-sdk-linux" \
     ANDROID_PLATFORM_VERSION=android-28
 
 # Create a non-root user
-RUN useradd -m user
+RUN useradd -m user && usermod -aG plugdev user
 USER user
 WORKDIR /home/user
 
