@@ -17,6 +17,7 @@ if [[ "$?" -eq 1 ]]; then
 	docker rm ${container_name}
 	docker run -d -it -p ${port}:${port}\
 		--expose ${port}\
+		-v $HOME/.gradle:${home_dir}/.gradle\
 		-v $HOME/.android:${home_dir}/.android\
 		-v $(pwd):${project_dir}\
 		-w ${project_dir}\
