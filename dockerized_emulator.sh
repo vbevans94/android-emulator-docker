@@ -26,7 +26,6 @@ fi
 
 echo "Connect to emulator on the host and make it use ANDROID_HOME env instead of local.properties"
 docker exec -i ${container_name} bash -c "adb connect host.docker.internal:${port}; rm local.properties"
-docker exec -i ${container_name} ./gradlew --stop
 docker exec -i ${container_name} $1
 result=$?
 
