@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
-echo "Usage: dockerized_device.sh '<command>' [<device_id>]"
+echo "Usage: dockerized_device.sh '<command>' <device_id> [<usb_device> e.g. /003/002, see full list lsusb]"
 device_id=""
+usb_device=""
 if [[ "$#" -eq 2 ]]; then
 	device_id=$2
+elif [[ "$#" -eq 3 ]]; then
+    device_id=$2
+    usb_device=$3
 else
 	exit 1
 fi
@@ -18,8 +22,7 @@ if [[ "$?" -eq 1 ]]; then
 	echo "No docker container, run it"
 	docker rm ${container_name}
 	docker run -d -it --privileged -e ANDROID_SERIAL=${device_id}\
-		-v $HOME/.gradle:${home_dir}/.gradle\
-		-v /dev/bus/usb:/dev/bus/usb\
+		-v /dev/bus/usb${usb_device}:/dev/bus/usb${usb_device}\
 		-v $HOME/.android:${home_dir}/.android\
 		-v $(pwd):${project_dir}\
 		-w ${project_dir}\
